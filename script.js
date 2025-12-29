@@ -1,4 +1,4 @@
-// --- Math Game Script with Sounds, Disco, Confetti, Mobile support ---
+// --- Math Game Script with Sounds, Disco, Confetti, Mobile support, Correct Answer Reveal, Addition ≤ 100 ---
 
 // Elements
 const questionEl = document.getElementById("question");
@@ -11,9 +11,9 @@ const confettiCanvas = document.getElementById("confetti-canvas");
 const ctx = confettiCanvas.getContext("2d");
 
 // Sounds
-const correctSound = document.getElementById("correct-sound");
-const wrongSound = document.getElementById("wrong-sound");
-const highscoreSound = document.getElementById("highscore-sound");
+const correctSound = new Audio("https://freesound.org/data/previews/522/522563_8399127-lq.mp3");
+const wrongSound = new Audio("https://freesound.org/data/previews/331/331912_3248244-lq.mp3");
+const highscoreSound = new Audio("https://freesound.org/data/previews/341/341695_5121236-lq.mp3");
 
 // Mobile detection
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -44,23 +44,28 @@ function nextQuestion() {
   let a, b;
 
   if (type === 0) {
-    a = Math.floor(Math.random() * 90) + 10;
-    b = Math.floor(Math.random() * 90) + 10;
+    // Addition: sum ≤ 100
+    a = Math.floor(Math.random() * 91) + 10;       // 10–100
+    let maxB = Math.min(90, 100 - a);             // ensure sum ≤ 100
+    b = Math.floor(Math.random() * (maxB + 1));
     currentAnswer = a + b;
     questionEl.textContent = `${a} + ${b}`;
   } else if (type === 1) {
+    // Subtraction
     a = Math.floor(Math.random() * 90) + 10;
     b = Math.floor(Math.random() * 90) + 10;
     if (b > a) [a, b] = [b, a];
     currentAnswer = a - b;
     questionEl.textContent = `${a} - ${b}`;
   } else {
+    // Multiplication
     a = Math.floor(Math.random() * 12) + 1;
     b = Math.floor(Math.random() * 12) + 1;
     currentAnswer = a * b;
     questionEl.textContent = `${a} × ${b}`;
   }
 
+  // --- Time calculation ---
   let baseTime = 10 - Math.floor(streak / 5);
   if (baseTime < 4) baseTime = 4;
 
@@ -91,7 +96,7 @@ function countdown() {
   else if (timeLeft / totalTime < 0.6) progressBar.style.backgroundColor = "#ffff00";
   else progressBar.style.backgroundColor = "#00ff99";
 
-  if (timeLeft <= 0) wrongAnswer();
+  if (timeLeft <= 0) wrongAnswer(true);
 }
 
 // --- Check answer ---
@@ -107,8 +112,9 @@ answerEl.addEventListener("keyup", (e) => {
 function correctAnswer() {
   clearInterval(timer);
   streak++;
+
   correctSound.currentTime = 0;
-  correctSound.play();
+  correctSound.play().catch(() => {});
 
   let isNewHigh = false;
   if (streak > highStreak) {
@@ -129,14 +135,18 @@ function correctAnswer() {
 }
 
 // --- Wrong answer ---
-function wrongAnswer() {
+function wrongAnswer(timeout = false) {
   clearInterval(timer);
   streak = 0;
-  wrongSound.currentTime = 0;
-  wrongSound.play();
   updateStreak();
   animateWrong();
-  questionEl.textContent = "❌ Wrong! Press Start to try again!";
+
+  wrongSound.currentTime = 0;
+  wrongSound.play().catch(() => {});
+
+  questionEl.textContent = `❌ Wrong! Correct: ${currentAnswer}`;
+  if (timeout) questionEl.textContent += " (Time's up!)";
+
   answerEl.disabled = true;
   startBtn.disabled = false;
 }
@@ -170,7 +180,7 @@ function animateWrong() {
 // --- Disco for high score ---
 function discoCelebrate() {
   highscoreSound.currentTime = 0;
-  highscoreSound.play();
+  highscoreSound.play().catch(() => {});
   questionEl.classList.add("disco");
   setTimeout(() => questionEl.classList.remove("disco"), 3000);
 }
@@ -216,3 +226,4 @@ function confetti() {
 
 // --- Start button ---
 startBtn.addEventListener("click", startGame);
+
