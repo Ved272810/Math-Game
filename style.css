@@ -1,0 +1,129 @@
+/* Pink theme and fun animations */
+body {
+  background: linear-gradient(135deg, #ffb6c1, #ff69b4);
+  font-family: 'Comic Sans MS', 'Poppins', sans-serif;
+  color: white;
+  text-align: center;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 30px;
+  border-radius: 25px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+  width: 320px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+h1 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.instructions {
+  font-size: 1.1em;
+  margin-bottom: 20px;
+}
+
+.game {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#question {
+  font-size: 1.5em;
+  font-weight: bold;
+  animation: pop 0.5s ease;
+}
+
+@keyframes pop {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+input {
+  padding: 10px;
+  font-size: 1em;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  text-align: center;
+}
+
+button {
+  background-color: #ff1493;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+  background-color: #ff69b4;
+  transform: scale(1.05);
+}
+
+#timer, #streak {
+  font-size: 1em;
+  margin-top: 10px;
+}
+
+#timer {
+  font-weight: bold;
+}
+
+/* Progress bar */
+#progress-container {
+  width: 100%;
+  height: 15px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+#progress-bar {
+  width: 100%;
+  height: 100%;
+  background-color: #00ff99;
+  transition: width 0.1s linear, background-color 0.3s linear;
+}
+
+/* Disco effect for new high score */
+@keyframes disco {
+  0% { background-color: #ff0000; }
+  20% { background-color: #00ff00; }
+  40% { background-color: #0000ff; }
+  60% { background-color: #ffff00; }
+  80% { background-color: #ff00ff; }
+  100% { background-color: #ff0000; }
+}
+
+.disco {
+  animation: disco 0.5s infinite;
+}
+
+/* Confetti canvas */
+#confetti-canvas {
+  position: fixed;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+}
