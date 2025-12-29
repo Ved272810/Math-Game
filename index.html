@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Math Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🎉 Math Game 🎉</h1>
+    <p class="instructions">Answer the questions before time runs out!</p>
+
+    <div class="game">
+      <div id="question">Press Start to begin!</div>
+      <input type="number" id="answer" placeholder="Type your answer" disabled>
+      <button id="start">Start</button>
+      <div id="timer">Time: 0</div>
+      <div id="progress-container">
+        <div id="progress-bar"></div>
+      </div>
+      <div id="streak">Current streak: 0 | High streak: 0</div>
+    </div>
+  </div>
+
+  <!-- Canvas for confetti -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Sounds -->
+  <audio id="correct-sound" src="https://freesound.org/data/previews/522/522563_8399127-lq.mp3"></audio>
+  <audio id="wrong-sound" src="https://freesound.org/data/previews/331/331912_3248244-lq.mp3"></audio>
+  <audio id="highscore-sound" src="https://freesound.org/data/previews/341/341695_5121236-lq.mp3"></audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
